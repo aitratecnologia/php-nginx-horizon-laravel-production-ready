@@ -1,4 +1,6 @@
 FROM webdevops/php-nginx:8.1
+LABEL maintainer="contato@aitra.com.br"
+LABEL vendor="aitra.com.br"
 ENV WEB_DOCUMENT_ROOT=/app/public
 ENV PHP_DISMOD=xdebug
 WORKDIR /app
