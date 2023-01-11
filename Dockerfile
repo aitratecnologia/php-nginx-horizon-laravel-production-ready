@@ -11,6 +11,8 @@ ENV php.post_max_size=100M
 ENV php.upload_max_filesize=100M
 ENV php.max_input_vars=10000
 ENV php.request_terminate_timeout=60s
+ENV FPM_REQUEST_TERMINATE_TIMEOUT=60s
+ENV FPM_MAX_REQUESTS=1000
 WORKDIR /app
 COPY ./laravel.ini /usr/local/etc/php/conf.d/laravel.ini
 COPY ./services/horizon.conf /opt/docker/etc/supervisor.d/horizon.conf
