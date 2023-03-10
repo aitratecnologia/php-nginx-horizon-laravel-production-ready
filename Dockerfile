@@ -11,6 +11,7 @@ ENV php.post_max_size=100M
 ENV php.upload_max_filesize=100M
 ENV php.max_input_vars=10000
 ENV php.request_terminate_timeout=60s
+ENV php.output_buffering=On
 ENV FPM_REQUEST_TERMINATE_TIMEOUT=60s
 ENV FPM_MAX_REQUESTS=1000
 WORKDIR /app
