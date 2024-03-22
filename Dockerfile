@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:8.1
+FROM webdevops/php-nginx:8.2
 LABEL maintainer="contato@aitra.com.br"
 LABEL vendor="aitra.com.br"
 ENV WEB_DOCUMENT_ROOT=/app/public
