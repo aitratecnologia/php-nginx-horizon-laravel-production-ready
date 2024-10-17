@@ -1,6 +1,5 @@
 FROM webdevops/php-nginx:8.2
-LABEL maintainer="contato@aitra.com.br"
-LABEL vendor="aitra.com.br"
+LABEL vendor="aitra.pt"
 ENV WEB_DOCUMENT_ROOT=/app/public
 ENV PHP_DISMOD=xdebug
 ENV PHP_DATE_TIMEZONE=America/Sao_Paulo
