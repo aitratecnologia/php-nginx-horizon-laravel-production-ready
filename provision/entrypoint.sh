@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /app
 php artisan filament:upgrade
 php artisan log-viewer:publish
 php artisan package:discover --ansi
