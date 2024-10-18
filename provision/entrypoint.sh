@@ -33,15 +33,6 @@ ln -s "$origem" "$destino" || { echo "❌ Falha ao criar o link simbólico"; exi
 
 echo "✅ Link simbólico criado com sucesso!"
 
-log "👤 A mudar a propriedade dos ficheiros para application:application"
-chown -R application:application /app || { echo "❌ Falha ao mudar a propriedade dos ficheiros"; exit 1; }
-
-log "🔐 A definir permissões para os ficheiros (644)"
-find /app -type f -print0 | xargs -0 chmod 644 || { echo "❌ Falha ao definir permissões dos ficheiros"; exit 1; }
-
-log "📁 A definir permissões para os diretórios (755)"
-find /app -type d -print0 | xargs -0 chmod 755 || { echo "❌ Falha ao definir permissões dos diretórios"; exit 1; }
-
 log "⚙️ A definir permissão de execução para wkhtmltopdf-amd64"
 chmod a+x /app/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64 || { echo "❌ Falha ao definir permissão de execução"; exit 1; }
 
