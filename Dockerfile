@@ -15,11 +15,11 @@ ENV FPM_MAX_REQUESTS=1000
 WORKDIR /app
 COPY ./laravel.ini /usr/local/etc/php/conf.d/laravel.ini
 COPY ./services/horizon.conf /opt/docker/etc/supervisor.d/horizon.conf
+COPY ./services/scheduler.conf /opt/docker/etc/supervisor.d/scheduler.conf
 COPY ./provision/entrypoint.sh /opt/docker/provision/entrypoint.d/entrypoint.sh
 COPY ./nginx/vhost/10-general.conf /opt/docker/etc/nginx/vhost.common.d/
 COPY ./nginx/vhost/10-php.conf /opt/docker/etc/nginx/vhost.common.d/
-RUN docker-service enable cron horizon
-RUN docker-cronjob '* * * * * application /usr/local/bin/php /app/artisan schedule:run >> /dev/null 2>&1'
+RUN docker-service enable scheduler horizon
 RUN apt-get update -y
 RUN apt-get install nano -y
 RUN apt-get install default-mysql-client -y
