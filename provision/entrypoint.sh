@@ -54,10 +54,4 @@ php artisan optimize:clear || { echo "❌ Falha ao limpar a cache de otimizaçã
 log "🚀 A otimizar a aplicação"
 php artisan optimize || { echo "❌ Falha ao otimizar a aplicação"; exit 1; }
 
-log "🎨 A criar cache de ícones"
-php artisan icons:cache || { echo "❌ Falha ao criar cache de ícones"; exit 1; }
-
-log "⚙️ A limpar cache de configuração"
-php artisan config:clear || { echo "❌ Falha ao limpar cache de configuração"; exit 1; }
-
 log "✅ Todas as operações concluídas com sucesso!"
