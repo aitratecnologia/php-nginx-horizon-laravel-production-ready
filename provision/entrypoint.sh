@@ -34,7 +34,7 @@ ln -s "$origem" "$destino" || { echo "❌ Falha ao criar o link simbólico"; exi
 echo "✅ Link simbólico criado com sucesso!"
 
 log "👤 A mudar a propriedade dos ficheiros para application:application"
-chown -R application:application /app || { echo "❌ Falha ao mudar a propriedade dos ficheiros"; exit 1; }
+chown -Rh application:application /app || { echo "❌ Falha ao mudar a propriedade dos ficheiros"; exit 1; }
 
 log "🔐 A definir permissões para os ficheiros (644)"
 find /app -type f -print0 | xargs -0 chmod 644 || { echo "❌ Falha ao definir permissões dos ficheiros"; exit 1; }
