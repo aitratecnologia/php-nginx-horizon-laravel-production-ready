@@ -1,24 +1,26 @@
-FROM webdevops/php-nginx:8.2
+FROM webdevops/php-nginx:8.4
 LABEL vendor="aitra.pt"
+
 ENV WEB_DOCUMENT_ROOT=/app/public
 ENV PHP_DISMOD=xdebug
 ENV PHP_DATE_TIMEZONE=America/Sao_Paulo
-ENV PHP_MEMORY_LIMIT=1024M
-ENV php.max_execution_time=600
-ENV php.max_input_time=600
-ENV php.post_max_size=100M
-ENV php.upload_max_filesize=100M
-ENV php.max_input_vars=10000
-ENV php.request_terminate_timeout=60s
-ENV FPM_REQUEST_TERMINATE_TIMEOUT=60s
-ENV FPM_MAX_REQUESTS=1000
+
 WORKDIR /app
-COPY ./laravel.ini /usr/local/etc/php/conf.d/laravel.ini
+
+
+COPY ./php/php.ini /opt/docker/etc/php/php.ini
+COPY ./php/fpm/php-fpm.conf /opt/docker/etc/php/fpm/php-fpm.conf
+
+COPY ./nginx/global.conf /opt/docker/etc/nginx/global.conf
+COPY ./nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
+COPY ./nginx/mime.types /opt/docker/etc/nginx/mime.types
+
 COPY ./services/horizon.conf /opt/docker/etc/supervisor.d/horizon.conf
 COPY ./services/scheduler.conf /opt/docker/etc/supervisor.d/scheduler.conf
+
 COPY ./provision/entrypoint.sh /opt/docker/provision/entrypoint.d/entrypoint.sh
-COPY ./nginx/vhost/10-general.conf /opt/docker/etc/nginx/vhost.common.d/
-COPY ./nginx/vhost/10-php.conf /opt/docker/etc/nginx/vhost.common.d/
+
+
 RUN docker-service enable scheduler horizon
 RUN apt-get update -y
 RUN apt-get install nano -y

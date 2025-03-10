@@ -1,18 +1,57 @@
-name: publish
-on: push
+name: Create Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
 jobs:
-  publish-docker-image:
-    name: Build the docker image
+  create-release:
+    name: Create Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: false
+          prerelease: false
+
+  publish-docker-image:
+    name: Build and push Docker image
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push
+
+      - name: Determine Dockerfile and Tags
         run: |
-            docker build . --tag ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:latest
-            docker push ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:latest
+          TAG=${GITHUB_REF#refs/tags/}
+          DOCKERFILE="Dockerfile"
+          LATEST_TAG="latest"
+          echo "DOCKERFILE=$DOCKERFILE" >> $GITHUB_ENV
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        run: |
+          docker build . -f $DOCKERFILE --tag ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:$TAG
+          docker tag ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:$TAG ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:$LATEST_TAG
+          docker push ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:$TAG
+          docker push ghcr.io/aitratecnologia/php-nginx-horizon-laravel-production-ready:$LATEST_TAG
