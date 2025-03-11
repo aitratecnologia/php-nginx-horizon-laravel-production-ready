@@ -14,6 +14,7 @@ COPY ./php/fpm/php-fpm.conf /opt/docker/etc/php/fpm/php-fpm.conf
 COPY ./nginx/global.conf /opt/docker/etc/nginx/global.conf
 COPY ./nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
 COPY ./nginx/mime.types /opt/docker/etc/nginx/mime.types
+COPY ./nginx/conf.d/ /opt/docker/etc/nginx/conf.d/
 
 COPY ./services/horizon.conf /opt/docker/etc/supervisor.d/horizon.conf
 COPY ./services/scheduler.conf /opt/docker/etc/supervisor.d/scheduler.conf
