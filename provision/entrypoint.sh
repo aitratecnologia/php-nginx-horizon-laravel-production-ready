@@ -8,6 +8,9 @@ log() {
 log "📂 A mudar para o diretório /app"
 cd /app || { echo "❌ Falha ao mudar para /app"; exit 1; }
 
+log "🚀 A fazer upgrade do Filament"
+php artisan filament:upgrade || { echo "❌ Falha no upgrade do Filament"; exit 1; }
+
 log "📊 A publicar o Log Viewer"
 php artisan log-viewer:publish || { echo "❌ Falha ao publicar o Log Viewer"; exit 1; }
 
